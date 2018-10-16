@@ -15,7 +15,7 @@
         <link href="css/iniciarSesion.css" rel="stylesheet">
         <script src="js/bootstrap.min.js"></script>
 
-        <title>Iniciar Sesion:: CulturarteWeb</title>
+        <title>CulturarteWeb</title>
 
     </head>
     <body>
