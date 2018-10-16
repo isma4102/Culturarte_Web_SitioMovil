@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import logica.Clases.DtUsuario;
+import logica.Clases.codificador;
 import logica.Fabrica;
 import logica.Interfaces.IControladorUsuario;
 
@@ -22,7 +23,7 @@ import logica.Interfaces.IControladorUsuario;
  *
  * @author PabloDesk
  */
-@WebServlet(name = "ServletInicio2", urlPatterns = {"/ServletInicio2"})
+@WebServlet(name = "ServletSesion", urlPatterns = {"/ServletSesion"})
 public class Login extends HttpServlet {
     
     private static final long serialVersionUID = 1L;
@@ -39,6 +40,22 @@ public class Login extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    
+      @Override
+    public void init() throws ServletException {
+        try {
+            Fabrica.getInstance().getIControladorUsuario().CargarUsuarios();
+            Fabrica.getInstance().getControladorPropCat().CargarPropuestas();
+            Fabrica.getInstance().getControladorPropCat().CargarColaboraciones();
+            Fabrica.getInstance().getControladorPropCat().comprobarBaseCat();
+            Fabrica.getInstance().getIControladorUsuario().CargarFavoritas();
+            Fabrica.getInstance().getControladorPropCat().CargarComentarios();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    
     public static DtUsuario getUsuarioSesion(HttpServletRequest request) {
         Fabrica fabrica = Fabrica.getInstance();
         IControladorUsuario ICU = fabrica.getIControladorUsuario();
@@ -48,15 +65,13 @@ public class Login extends HttpServlet {
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         DtUsuario usuLogeado = (DtUsuario) request.getSession().getAttribute("usuario_logueado");
         if (usuLogeado == null) {
             response.setContentType("text/html;charset=UTF-8");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/Vistas/iniciarSesion.jsp");
             dispatcher.forward(request, response);
         } else {
-            request.setAttribute("mensaje", "Ya existe una sesion en el sistema");
-            request.getRequestDispatcher("/Vistas/Mensaje_Recibido.jsp.jsp").forward(request, response);
+            request.getRequestDispatcher("/ServletInicio").forward(request, response);
         }
         
     }
@@ -76,6 +91,7 @@ public class Login extends HttpServlet {
         processRequest(request, response);
     }
 
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *

@@ -40,7 +40,7 @@ public class CerrarSesion extends HttpServlet {
         } else {
             request.getSession().setAttribute("estado_sesion", null);
             request.getSession().setAttribute("usuario_logueado", null);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("ServletInicio");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ServletSesion");
             dispatcher.forward(request, response);
         }
     }

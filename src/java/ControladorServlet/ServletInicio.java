@@ -33,19 +33,7 @@ public class ServletInicio extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    @Override
-    public void init() throws ServletException {
-        try {
-            Fabrica.getInstance().getIControladorUsuario().CargarUsuarios();
-            Fabrica.getInstance().getControladorPropCat().CargarPropuestas();
-            Fabrica.getInstance().getControladorPropCat().CargarColaboraciones();
-            Fabrica.getInstance().getControladorPropCat().comprobarBaseCat();
-            Fabrica.getInstance().getIControladorUsuario().CargarFavoritas();
-            Fabrica.getInstance().getControladorPropCat().CargarComentarios();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
+  
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    

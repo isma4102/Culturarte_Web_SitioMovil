@@ -19,7 +19,7 @@
 
     </head>
     <body>
-        <jsp:include page="/Vistas/Barra_menu.jsp" />
+     
         <div class="container">
             <div class="formulario" style="margin-top: 7%;">
             <img id="profile-img" class="profile-img-card" src="/CulturarteWeb/Imagenes/nadie.png" />
@@ -34,7 +34,7 @@
                     Usuario Incorrecto, reintente o Registrese si aun no tiene una cuenta.                  
                     <%}%>  
             </div>
-             <form id="loginForm" action="${pageContext.request.contextPath}/iniciar-sesion" method="POST">
+             <form id="loginForm" action="${pageContext.request.contextPath}/ServletSesion" method="POST">
                 <span id="reauth-email" class="reauth-email"></span>
                 <input type="text" name="login" id="inputEmail" class="form-control" placeholder="Nickname o correo electronico" required autofocus>
                 </br>
@@ -58,7 +58,7 @@
             <% }%>
         </script> 
     <div style="margin-top: 10%;">
-    <jsp:include page="/Vistas/footer.jsp" />
+
     </div>
     </body>
 </html>
