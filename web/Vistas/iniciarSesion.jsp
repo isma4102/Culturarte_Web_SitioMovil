@@ -21,8 +21,7 @@
     <body>
         <jsp:include page="/Vistas/Barra_menu.jsp" />
         <div class="container">
-            <div class="formulario" style="margin-top: 14%;">
-            <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+            <div class="formulario" style="margin-top: 7%;">
             <img id="profile-img" class="profile-img-card" src="/CulturarteWeb/Imagenes/nadie.png" />
             <p id="profile-name" class="profile-name-card"></p>
              <div id="Error_login" style="display: none;" class="alert alert-danger" role="alert">

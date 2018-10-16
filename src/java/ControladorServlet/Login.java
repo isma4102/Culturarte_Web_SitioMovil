@@ -22,7 +22,7 @@ import logica.Interfaces.IControladorUsuario;
  *
  * @author PabloDesk
  */
-@WebServlet("/iniciar-sesion")
+@WebServlet(name = "ServletInicio2", urlPatterns = {"/ServletInicio2"})
 public class Login extends HttpServlet {
     
     private static final long serialVersionUID = 1L;
