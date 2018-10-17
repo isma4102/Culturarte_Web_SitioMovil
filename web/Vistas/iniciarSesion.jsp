@@ -28,10 +28,10 @@
                     <span class="sr-only">Error:</span>
                     <% if (request.getAttribute("errorContrasenia")!=null)
                     {%>
-                    Contraseña Incorrecta.
+                    La contraseña es incorrecta, vuelve a intentarlo.
                     <%}
                     else{%>                  
-                    Usuario Incorrecto, reintente o Registrese si aun no tiene una cuenta.                  
+                    No pudimos encontrar tu cuenta de Culturarte.              
                     <%}%>  
             </div>
              <form id="loginForm" action="${pageContext.request.contextPath}/ServletSesion" method="POST">
@@ -41,9 +41,7 @@
                 <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Contraseña" required>
                 </br>
                 <button style="background-color:#286090"  onclick="submit()" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Iniciar Sesión</button>
-                </br>
-                <button style="background-color:#286090" href="/CulturarteWeb/altaUsuarioServlet" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Registrarse</button>
-                
+                               
             </form><!-- /form -->
            
         </div><!-- /card-container -->

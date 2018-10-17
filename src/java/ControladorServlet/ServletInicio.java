@@ -34,7 +34,7 @@ public class ServletInicio extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
   
-
+   
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    
 
