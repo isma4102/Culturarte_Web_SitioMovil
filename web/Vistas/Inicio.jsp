@@ -11,6 +11,8 @@
     <head>        
         <link rel="icon" type="image/png" href="Imagenes/icono.png"/>
         <title>Culturarte</title>
+                 <script src="/Culturarte_Web_SitioMovil/js/jquery.js"></script>
+
     </head>
     <body>
 

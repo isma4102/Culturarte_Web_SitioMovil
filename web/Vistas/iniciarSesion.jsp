@@ -10,11 +10,9 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <script type="text/javascript" src="/CulturarteWeb/script/jquery.js"></script>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/iniciarSesion.css" rel="stylesheet">
-        <script src="js/bootstrap.min.js"></script>
-
+        <script type="text/javascript" src="/Culturarte_Web_SitioMovil/script/jquery.js"></script>
+        <link href="/Culturarte_Web_SitioMovil/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/Culturarte_Web_SitioMovil/css/iniciarSesion.css" rel="stylesheet">
         <title>CulturarteWeb</title>
 
     </head>
