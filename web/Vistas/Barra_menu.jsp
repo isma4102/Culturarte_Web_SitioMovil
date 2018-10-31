@@ -1,4 +1,4 @@
-<%@page import="logica.Clases.DtUsuario"%>
+<%@page import="servicios.DtUsuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

@@ -7,17 +7,21 @@ package ControladorServlet;
  */
 import clases.EstadoSesion;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import logica.Clases.DtUsuario;
-import logica.Clases.codificador;
-import logica.Fabrica;
-import logica.Interfaces.IControladorUsuario;
+import servicios.DtUsuario;
+import servicios.PublicadorConsultarUsuario;
+import servicios.PublicadorConsultarUsuarioService;
 
 /**
  *
@@ -27,8 +31,7 @@ import logica.Interfaces.IControladorUsuario;
 public class Login extends HttpServlet {
     
     private static final long serialVersionUID = 1L;
-    Fabrica fabrica = Fabrica.getInstance();
-    IControladorUsuario ICU = fabrica.getIControladorUsuario();
+    private PublicadorConsultarUsuario port;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,22 +49,17 @@ public class Login extends HttpServlet {
     @Override
     public void init() throws ServletException {
         try {
-            Fabrica.getInstance().getIControladorUsuario().CargarUsuarios();
-            Fabrica.getInstance().getControladorPropCat().CargarPropuestas();
-            Fabrica.getInstance().getControladorPropCat().CargarColaboraciones();
-            Fabrica.getInstance().getControladorPropCat().comprobarBaseCat();
-            Fabrica.getInstance().getIControladorUsuario().CargarFavoritas();
-            Fabrica.getInstance().getControladorPropCat().CargarComentarios();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            URL url = new URL("http://127.0.0.1:8280/servicioConsultaU");
+            PublicadorConsultarUsuarioService webService = new PublicadorConsultarUsuarioService(url);
+            this.port = webService.getPublicadorConsultarUsuarioPort();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
     
     public static DtUsuario getUsuarioSesion(HttpServletRequest request) {
-        Fabrica fabrica = Fabrica.getInstance();
-        IControladorUsuario ICU = fabrica.getIControladorUsuario();
-        return (DtUsuario) request.getSession().getAttribute("usuario_logueado");
+          return (DtUsuario) request.getSession().getAttribute("usuario_logueado");
         
     }
     
@@ -69,11 +67,13 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         DtUsuario usuLogeado = (DtUsuario) request.getSession().getAttribute("usuario_logueado");
         if (usuLogeado == null) {
+            request.getSession().setAttribute("estado_sesion", null);
             response.setContentType("text/html;charset=UTF-8");
             RequestDispatcher dispatcher = request.getRequestDispatcher("/Vistas/iniciarSesion.jsp");
             dispatcher.forward(request, response);
         } else {
-            request.getRequestDispatcher("/ServletInicio").forward(request, response);
+            request.setAttribute("mensaje", "Ya existe una sesion en el sistema");
+            request.getRequestDispatcher("/Vistas/Mensaje_Recibido.jsp").forward(request, response);
         }
         
     }
@@ -105,17 +105,49 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession objSesion = request.getSession();
-         String login = request.getParameter("login");
-String password = request.getParameter("pass");
+         HttpSession objSesion = request.getSession();
+        String login = request.getParameter("login");
+        String password = request.getParameter("pass");
         EstadoSesion nuevoEstado = null;
         codificador a = new codificador();
-        
-        DtUsuario usrNick = ICU.ObtenerDTUsuario(login);
-        DtUsuario usrCorreo = ICU.ObtenerDTUsuario_Correo(login);
-        
+        servicios.DtUsuario usrCorreo = null;
+        servicios.DtUsuario usrNick = null;
+        boolean recordarme = request.getParameter("Recordarme") != null;
+        try {
+            usrNick = this.port.obtenerDtUsuario(login);
+        } catch (Exception error) {
+            try {
+                usrCorreo = this.port.obtenerDtUsuarioCorreo(login);
+            } catch (Exception e) {
+                nuevoEstado = EstadoSesion.LOGIN_INCORRECTO;
+                objSesion.setAttribute("estado_sesion", nuevoEstado);
+                request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
+            }
+            if (usrCorreo != null) {
+                String hash = a.sha1(password);
+                if (usrCorreo.getPassword().compareTo(hash) != 0) {
+                    request.setAttribute("errorContrasenia", "Contraseña Incorrecta.");
+                    nuevoEstado = EstadoSesion.CONTRASENIA_INCORRECTA;
+                    objSesion.setAttribute("estado_sesion", nuevoEstado);
+                    request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
+                } else {
+                    nuevoEstado = EstadoSesion.LOGIN_CORRECTO;
+                    request.getSession().setAttribute("usuario_logueado", usrCorreo);// setea el usuario logueado
+                    if (recordarme) {
+                        Cookie cookieSesion = new Cookie("cookieSesion", usrCorreo.getNickname());
+                        cookieSesion.setMaxAge(60*60*24);
+                        cookieSesion.setPath("/");
+                        response.addCookie(cookieSesion);
+                    }
+                }
+
+            }
+            objSesion.setAttribute("estado_sesion", nuevoEstado);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
+            dispatcher.forward(request, response);
+        }
+
         if (usrNick != null) {
-            
             String hash = a.sha1(password);
             if (usrNick.getPassword().compareTo(hash) != 0) {
                 request.setAttribute("errorContrasenia", "Contraseña Incorrecta.");
@@ -125,31 +157,17 @@ String password = request.getParameter("pass");
             } else {
                 nuevoEstado = EstadoSesion.LOGIN_CORRECTO;
                 request.getSession().setAttribute("usuario_logueado", usrNick);// setea el usuario logueado
-            }
-            
-        } else if (usrCorreo != null) {
-            
-            String hash = a.sha1(password);
-            if (usrCorreo.getPassword().compareTo(hash) != 0) {
-                request.setAttribute("errorContrasenia", "Contraseña Incorrecta.");
-                nuevoEstado = EstadoSesion.CONTRASENIA_INCORRECTA;
                 objSesion.setAttribute("estado_sesion", nuevoEstado);
-                request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
-            } else {
-                nuevoEstado = EstadoSesion.LOGIN_CORRECTO;
-                request.getSession().setAttribute("usuario_logueado", usrCorreo);// setea el usuario logueado
+                if (recordarme) {
+                    Cookie cookieSesion = new Cookie("cookieSesion", usrNick.getNickname());
+                    cookieSesion.setMaxAge(60*60*24);
+                    cookieSesion.setPath("/");
+                    response.addCookie(cookieSesion);
+                }
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
+                dispatcher.forward(request, response);
             }
-            
-        } else {
-            nuevoEstado = EstadoSesion.LOGIN_INCORRECTO;
-            objSesion.setAttribute("estado_sesion", nuevoEstado);
-            request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
-            
         }
-        
-        objSesion.setAttribute("estado_sesion", nuevoEstado);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
-        dispatcher.forward(request, response);
     }
 
     /**

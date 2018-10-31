@@ -38,6 +38,7 @@
                 </br>
                 <input type="password" name="pass" id="inputPassword" class="form-control" placeholder="Contraseña" required>
                 </br>
+                <label><input type="checkbox" name="Recordarme" value="">Recordarme</label>
                 <button style="background-color:#286090"  onclick="submit()" class="btn btn-lg btn-primary btn-block btn-signin" type="submit">Iniciar Sesión</button>
                                
             </form><!-- /form -->
