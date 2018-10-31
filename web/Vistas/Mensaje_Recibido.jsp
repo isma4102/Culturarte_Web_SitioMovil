@@ -29,7 +29,7 @@
                     </div>
                     <div class="modal-footer">
                         <a href="javascript:window.history.back();" class="btn btn-primary"> &laquo; Volver</a>
-                       <a style="color:#FFFFFF" class="btn btn-primary" href="/CulturarteWeb/ServletInicio">Salir al Inicio</a> </button>
+                       <a style="color:#FFFFFF" class="btn btn-primary" href="/Culturarte_Web_SitioMovil/ServletSesion">Iniciar Sesión</a> </button>
 
                     </div>
                </div>
