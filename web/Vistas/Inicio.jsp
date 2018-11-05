@@ -1,44 +1,61 @@
-<%-- 
-    Document   : Inicio
-    Created on : 18/09/2018, 01:12:17 AM
-    Author     : Martin
---%>
-
 <%@page import="servicios.DtConsultaPropuesta"%>
-<%@page import="servicios.DtListConsultaPropuesta"%>
-<%@page import="java.util.Iterator"%>
-<%@page import="servicios.DtNickTitProp"%>
 <%@page import="java.util.List"%>
-<%@page import="servicios.DtListNickTitProp"%>
-<%@page import="clases.EstadoSesion"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="servicios.DtListConsultaPropuesta"%>
 <!DOCTYPE html>
-<html>
-    <head>        
-        <link rel="icon" type="image/png" href="Imagenes/icono.png"/>
-        <link type="text/css" href="../css/bootstrap.css"/>
-        <link type="text/css" href="../css/galeriaProp.css"/>
-        <title>Culturarte</title>
-        <script src="/Culturarte_Web_SitioMovil/js/jquery.js"></script>
+<html lang="en">
 
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    </head>
-    <body>
-        <jsp:include page="/Vistas/Barra_menu.jsp" />
+    <title>Culturarte</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+        <link href="css/lista_propuesta.css" rel="stylesheet">
+          <script src="/Culturarte_Web_SitioMovil/js/jquery.js"></script>
+
+</head>
+
+<body>
+ <jsp:include page="/Vistas/Barra_menu.jsp" />
+   <br><br>
+
+    <div class="container">
+
         <div class="row">
-            <%
+
+            <div class="col-lg-12">
+                <h1 style="text-align: center" class="page-header">Consulta de propuestas</h1>
+            </div>
+ <%
                 DtListConsultaPropuesta propuestas = (DtListConsultaPropuesta) request.getAttribute("propuestas");
                 List<DtConsultaPropuesta> lista = propuestas.getLista();
                 for (DtConsultaPropuesta prop : lista) {%>
-            <div style="display: inline-block; width: 50%; height: 50%" class="col-sm">
-                <div class="img-container" style=" width: 100%; height: 100%">
-                    <img class="img img-thumbnail" style="max-width: 100%; height: 0%" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>"> 
-                    <div class="text-container">
-                        <p><%= prop.getTitulo()%></p>
-                    </div>
-                </div>
+            <div class="col-lg-3 col-md-4 col-xs-6 thumb contenedor">
+              
+                <a class="thumbnail" href="#">
+                      <img class="img-responsive" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>">
+                      <div class="centrado">
+                          <b style="color: white"><%= prop.getTitulo()%></b>
+                          </div>
+                </a>
+                    
             </div>
-            <%}%>
+                          <% } %>
+           
         </div>
-    </body>
+
+        <hr>
+
+       
+
+    </div>
+    <!-- /.container -->
+
+    <!-- JavaScript -->
+</body>
+
 </html>
