@@ -28,7 +28,6 @@
             </button>
             <div class="navbar-collapse collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item py-md-2"><a href="#" class="nav-link">Consultar propuestas</a></li>
                     <li class="nav-item py-md-2"><a href="#" class="nav-link">Registrar Colaboración</a></li>
                     <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/Vistas/Pagar_Colaboracion.jsp" class="nav-link">Pagar Colaboración</a></li>
                     <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/CerrarSesion" class="nav-link">Cerrar Sesión</a></li>

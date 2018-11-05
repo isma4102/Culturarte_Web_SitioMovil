@@ -41,3 +41,35 @@ and open the template in the editor.
     max-width: 100%;
   }
 }
+
+.img-container {
+  width: 200px;
+  height: 150px;
+  padding: 10px 10px 30px 10px;
+  background: #fff;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.img-container:before {
+  content: '';
+  width: inherit;
+  height: inherit;
+  position: absolute;
+  background: #fff;
+  opacity: 0;
+  transition: opacity .1s ease-out;   
+}
+
+.img-container:hover:before { 
+  opacity: 1;
+}
+
+.img-container .text-container {
+  width: inherit;
+  padding: 5px 15px;
+  color: #444;
+  position: absolute;
+  top: 100%; 
+}

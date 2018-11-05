@@ -30,9 +30,12 @@
                 DtListConsultaPropuesta propuestas = (DtListConsultaPropuesta) request.getAttribute("propuestas");
                 List<DtConsultaPropuesta> lista = propuestas.getLista();
                 for (DtConsultaPropuesta prop : lista) {%>
-            <div style="display: inline-block; width: 40%; height: 40%" class="column">
-                <div style="display: inline-block; width: auto; height: 100%">
-                <img class="img img-thumbnail" style="max-width: 100%; height: 0%" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>"> 
+            <div style="display: inline-block; width: 50%; height: 50%" class="col-sm">
+                <div class="img-container" style=" width: 100%; height: 100%">
+                    <img class="img img-thumbnail" style="max-width: 100%; height: 0%" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>"> 
+                    <div class="text-container">
+                        <p><%= prop.getTitulo()%></p>
+                    </div>
                 </div>
             </div>
             <%}%>
