@@ -7,10 +7,11 @@ package ControladorServlet;
 
 import clases.EstadoSesion;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -18,9 +19,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import servicios.DtListConsultaPropuesta;
+import servicios.DtListNickTitProp;
 import servicios.DtListPropuestaWeb;
 import servicios.DtPropuestaWeb;
 import servicios.DtUsuario;
+import servicios.Exception_Exception;
+import servicios.PublicadorConsultarPropuesta;
+import servicios.PublicadorConsultarPropuestaService;
 import servicios.PublicadorConsultarUsuario;
 import servicios.PublicadorConsultarUsuarioService;
 import servicios.PublicadorInicio;
@@ -33,8 +39,10 @@ import servicios.PublicadorInicioService;
 @WebServlet(name = "ServletInicio", urlPatterns = {"/ServletInicio"})
 public class ServletInicio extends HttpServlet {
 
-  private PublicadorInicio port;
-  private PublicadorConsultarUsuario port1;
+    private PublicadorInicio port;
+    private PublicadorConsultarUsuario port1;
+    private PublicadorConsultarPropuesta port2;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -44,7 +52,7 @@ public class ServletInicio extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-  @Override
+    @Override
     public void init() throws ServletException {
         try {
             URL url = new URL("http://127.0.0.1:8280/servicioInicio");
@@ -54,15 +62,19 @@ public class ServletInicio extends HttpServlet {
             URL url1 = new URL("http://127.0.0.1:8280/servicioConsultaU");
             PublicadorConsultarUsuarioService webService1 = new PublicadorConsultarUsuarioService(url1);
             this.port1 = webService1.getPublicadorConsultarUsuarioPort();
-
+            
+            URL url2 = new URL("http://127.0.0.1:8280/servicioConsultaP");
+            PublicadorConsultarPropuestaService webService2 = new PublicadorConsultarPropuestaService(url2);
+            this.port2 = webService2.getPublicadorConsultarPropuestaPort();
         } catch (MalformedURLException ex) {
-            ex.printStackTrace();
+            Logger.getLogger(ServletInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }
-   
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception_Exception {
         DtListPropuestaWeb ListaProp = this.port.listarPropuestasWeb();
-        
+
         List<DtPropuestaWeb> listPublicada = ListaProp.getPublicadas();
         List<DtPropuestaWeb> listFinanciada = ListaProp.getNoFinanciadas();
         List<DtPropuestaWeb> listEnFinanciacion = ListaProp.getEnFinanciacion();
@@ -79,45 +91,45 @@ public class ServletInicio extends HttpServlet {
         DtUsuario usrNick = null;
         DtUsuario logueado = null;
         HttpSession session = request.getSession();
-        if(session.getAttribute("usuario_logueado") == null){
-        
-        boolean haySesion = false;
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
+        if (session.getAttribute("usuario_logueado") == null) {
+
+            boolean haySesion = false;
+            Cookie[] cookies = request.getCookies();
+            if (cookies != null) {
                 for (int i = 0; i < cookies.length; i++) {
-                        if (cookies[i].getName().equals("cookieSesion")) {
-                                if (!cookies[i].getValue().equals("")) {
-                                        haySesion = true;
-                                        String usuarioid = cookies[i].getValue();
-                                        try {
-                                        usrNick = this.port1.obtenerDtUsuario(usuarioid);
-                                        }
-                                        catch (Exception error) {
-                                            try {
-                                                usrCorreo = this.port1.obtenerDtUsuarioCorreo(usuarioid);
-                                            }
-                                            catch (Exception e) {   
-                                            }
-                                        }
-
-
-                                        if(usrNick==null){
-                                        logueado= usrCorreo;}
-                                        else{
-                                        logueado= usrNick;
-                                            }
-
-                                        session.setAttribute("estado_sesion", EstadoSesion.LOGIN_CORRECTO);
-                                        session.setAttribute("usuario_logueado", logueado);
+                    if (cookies[i].getName().equals("cookieSesion")) {
+                        if (!cookies[i].getValue().equals("")) {
+                            haySesion = true;
+                            String usuarioid = cookies[i].getValue();
+                            try {
+                                usrNick = this.port1.obtenerDtUsuario(usuarioid);
+                            } catch (Exception error) {
+                                try {
+                                    usrCorreo = this.port1.obtenerDtUsuarioCorreo(usuarioid);
+                                } catch (Exception e) {
                                 }
+                            }
+
+                            if (usrNick == null) {
+                                logueado = usrCorreo;
+                            } else {
+                                logueado = usrNick;
+                            }
+
+                            session.setAttribute("estado_sesion", EstadoSesion.LOGIN_CORRECTO);
+                            session.setAttribute("usuario_logueado", logueado);
                         }
+                    }
                 }
-        }
-        if (!haySesion) {
+            }
+            if (!haySesion) {
                 session.setAttribute("estado_sesion", null);
                 session.setAttribute("usuario_logueado", null);
+            }
         }
-        }
+        DtListConsultaPropuesta propuestas = port2.getDtPropuestas();
+        request.setAttribute("propuestas", propuestas);
+
         request.getRequestDispatcher("Vistas/Inicio.jsp").forward(request, response);
     }
 
@@ -134,7 +146,11 @@ public class ServletInicio extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception_Exception ex) {
+            Logger.getLogger(ServletInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -148,7 +164,11 @@ public class ServletInicio extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (Exception_Exception ex) {
+            Logger.getLogger(ServletInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
