@@ -33,7 +33,7 @@
             <div style="display: inline-block; width: 50%; height: 50%" class="col-sm">
                 <div class="img-container" style=" width: 100%; height: 100%">
                     <img class="img img-thumbnail" style="max-width: 100%; height: 0%" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>"> 
-                    <div class="text-container">
+                    <div style="position: absolute" class="text-container">
                         <p><%= prop.getTitulo()%></p>
                     </div>
                 </div>
