@@ -1,61 +1,58 @@
 <%@page import="servicios.DtConsultaPropuesta"%>
 <%@page import="java.util.List"%>
 <%@page import="servicios.DtListConsultaPropuesta"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
+    <head>
+        <meta charset="UTF-8"/>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
 
-    <title>Culturarte</title>
+        <title>Culturarte</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+        <link href="css/bootstrap.css" rel="stylesheet">
         <link href="css/lista_propuesta.css" rel="stylesheet">
-          <script src="/Culturarte_Web_SitioMovil/js/jquery.js"></script>
+        <link href="css/RegistrarColaboracion.css" rel="stylesheet">
+        <script src="/Culturarte_Web_SitioMovil/js/jquery.js"></script>
 
-</head>
+    </head>
 
-<body>
- <jsp:include page="/Vistas/Barra_menu.jsp" />
-   <br><br>
+    <body>
+        <jsp:include page="/Vistas/Barra_menu.jsp" />
+        
+        <div style="width: 95%;" class="container formulario">
 
-    <div class="container">
+            <div class="row">
 
-        <div class="row">
+                <div class="col-lg-12">
+                    <h4 style="margin-top: 0%;text-align: center" class="page-header">Consulta de propuestas</h4>
+                </div>
+                <%
+                    DtListConsultaPropuesta propuestas = (DtListConsultaPropuesta) request.getAttribute("propuestas");
+                    List<DtConsultaPropuesta> lista = propuestas.getLista();
+     for (DtConsultaPropuesta prop : lista) {%>
+                <div class="col-lg-3 col-md-4 col-xs-6 thumb contenedor">
+                    <a class="thumbnail" href="#">
+                        <img style="filter: brightness(35%); width:200px; height:141px" class="img-responsive" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>">           
+                        <div class="centrado">
+                            <b style="color: white"><%= prop.getTitulo()%></b>
+                        </div>
+                    </a>
 
-            <div class="col-lg-12">
-                <h1 style="text-align: center" class="page-header">Consulta de propuestas</h1>
+                </div>
+                <% }%>
+
             </div>
- <%
-                DtListConsultaPropuesta propuestas = (DtListConsultaPropuesta) request.getAttribute("propuestas");
-                List<DtConsultaPropuesta> lista = propuestas.getLista();
-                for (DtConsultaPropuesta prop : lista) {%>
-            <div class="col-lg-3 col-md-4 col-xs-6 thumb contenedor">
-              
-                <a class="thumbnail" href="#">
-                      <img class="img-responsive" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>">
-                      <div class="centrado">
-                          <b style="color: white"><%= prop.getTitulo()%></b>
-                          </div>
-                </a>
-                    
-            </div>
-                          <% } %>
-           
+
+            <hr>
+
+
+
         </div>
+        <!-- /.container -->
 
-        <hr>
-
-       
-
-    </div>
-    <!-- /.container -->
-
-    <!-- JavaScript -->
-</body>
+        <!-- JavaScript -->
+    </body>
 
 </html>

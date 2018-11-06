@@ -73,6 +73,23 @@ public class ServletInicio extends HttpServlet {
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception_Exception {
+       
+         try {
+            URL url = new URL("http://127.0.0.1:8280/servicioInicio");
+            PublicadorInicioService webService = new PublicadorInicioService(url);
+            this.port = webService.getPublicadorInicioPort();
+            
+            URL url1 = new URL("http://127.0.0.1:8280/servicioConsultaU");
+            PublicadorConsultarUsuarioService webService1 = new PublicadorConsultarUsuarioService(url1);
+            this.port1 = webService1.getPublicadorConsultarUsuarioPort();
+            
+            URL url2 = new URL("http://127.0.0.1:8280/servicioConsultaP");
+            PublicadorConsultarPropuestaService webService2 = new PublicadorConsultarPropuestaService(url2);
+            this.port2 = webService2.getPublicadorConsultarPropuestaPort();
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(ServletInicio.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
         DtListPropuestaWeb ListaProp = this.port.listarPropuestasWeb();
 
         List<DtPropuestaWeb> listPublicada = ListaProp.getPublicadas();

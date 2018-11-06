@@ -14,7 +14,7 @@
             .dev-page{visibility: hidden; }            
         </style>
     </head>
-    <body>
+    <body style="margin: 0;margin-bottom: 40px;">
         <nav style="background-color: black" class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
