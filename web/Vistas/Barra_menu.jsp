@@ -25,7 +25,7 @@
                         <span class="icon-bar"></span>
                     </button>
                     <% if (request.getSession().getAttribute("usuario_logueado") == null) { %>
-            <a style="color:#878482" class="navbar-brand" href="#">Bienvenido</a>
+                    <a style="color:#878482" class="navbar-brand" href="/Culturarte_Web_SitioMovil/ServletInicio">Bienvenido</a>
             <% } else {%>
             <a style="color:#878482" class="navbar-brand" href="/Culturarte_Web_SitioMovil/ServletInicio">Bienvenido <%=((DtUsuario) request.getSession().getAttribute("usuario_logueado")).getNombre()%></a>
             <% }%>

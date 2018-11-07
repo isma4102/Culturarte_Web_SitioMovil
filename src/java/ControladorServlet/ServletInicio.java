@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
@@ -42,6 +43,7 @@ public class ServletInicio extends HttpServlet {
     private PublicadorInicio port;
     private PublicadorConsultarUsuario port1;
     private PublicadorConsultarPropuesta port2;
+    configuracion conf = new configuracion();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,42 +56,29 @@ public class ServletInicio extends HttpServlet {
      */
     @Override
     public void init() throws ServletException {
-        try {
-            URL url = new URL("http://127.0.0.1:8280/servicioInicio");
-            PublicadorInicioService webService = new PublicadorInicioService(url);
-            this.port = webService.getPublicadorInicioPort();
-            
-            URL url1 = new URL("http://127.0.0.1:8280/servicioConsultaU");
-            PublicadorConsultarUsuarioService webService1 = new PublicadorConsultarUsuarioService(url1);
-            this.port1 = webService1.getPublicadorConsultarUsuarioPort();
-            
-            URL url2 = new URL("http://127.0.0.1:8280/servicioConsultaP");
-            PublicadorConsultarPropuestaService webService2 = new PublicadorConsultarPropuestaService(url2);
-            this.port2 = webService2.getPublicadorConsultarPropuestaPort();
-        } catch (MalformedURLException ex) {
-            Logger.getLogger(ServletInicio.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception_Exception {
-       
-         try {
-            URL url = new URL("http://127.0.0.1:8280/servicioInicio");
+        ServletContext context;
+        context = request.getServletContext();
+        String ruta = context.getResource("").getPath();
+        try {
+            URL url = new URL("http://" + conf.obtenerServer("servidor", ruta) + "/servicioInicio");
             PublicadorInicioService webService = new PublicadorInicioService(url);
             this.port = webService.getPublicadorInicioPort();
-            
-            URL url1 = new URL("http://127.0.0.1:8280/servicioConsultaU");
+
+            URL url1 = new URL("http://" + conf.obtenerServer("servidor", ruta) + "/servicioConsultaU");
             PublicadorConsultarUsuarioService webService1 = new PublicadorConsultarUsuarioService(url1);
             this.port1 = webService1.getPublicadorConsultarUsuarioPort();
-            
-            URL url2 = new URL("http://127.0.0.1:8280/servicioConsultaP");
+
+            URL url2 = new URL("http://" + conf.obtenerServer("servidor", ruta) + "/servicioConsultaP");
             PublicadorConsultarPropuestaService webService2 = new PublicadorConsultarPropuestaService(url2);
             this.port2 = webService2.getPublicadorConsultarPropuestaPort();
         } catch (MalformedURLException ex) {
             Logger.getLogger(ServletInicio.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         DtListPropuestaWeb ListaProp = this.port.listarPropuestasWeb();
 
         List<DtPropuestaWeb> listPublicada = ListaProp.getPublicadas();

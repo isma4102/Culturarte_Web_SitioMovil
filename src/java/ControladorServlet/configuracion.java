@@ -5,6 +5,7 @@
  */
 package ControladorServlet;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +20,9 @@ public class configuracion {
 
     public String obtenerServer(String caso, String ruta) {
         Properties prop = new Properties();
-        InputStream archivo = null;
+        InputStream archivo;
         String rutaRecortada = recortarRuta(ruta);
-        rutaRecortada=rutaRecortada+"/config/config.properties";
+        rutaRecortada = rutaRecortada + "config/config.properties";
         try {
             archivo = new FileInputStream(rutaRecortada);
             prop.load(archivo);
@@ -33,10 +34,17 @@ public class configuracion {
     }
 
     public String recortarRuta(String ruta) {
-        String recortada;
+        String recortada = null;
         String[] partes;
         partes = ruta.split("/");
-        recortada=partes[1]+"/"+partes[2]+"/"+partes[3]+"/"+partes[4]+"/"+partes[5]+"/"+partes[6];
+        int parts = partes.length - 2;//commit
+        for (int i = 1; i < parts; i++) {
+            if (i == 1) {
+                recortada = partes[i] + "/";
+            } else {
+                recortada = recortada + partes[i] + "/";
+            }
+        }
         return recortada;
     }
 

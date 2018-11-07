@@ -27,7 +27,6 @@
             List<DtConsultaPropuesta2> lista = (List<DtConsultaPropuesta2>) request.getAttribute("listaC");
             DtConsultaPropuesta dtInf = (DtConsultaPropuesta) request.getAttribute("propuesta");
         %>
-
         <%
             String colaboradores = " 0 colaboraciones";
             for (int i = 0; i < lista.size(); i++) {
