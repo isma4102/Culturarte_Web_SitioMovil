@@ -135,9 +135,17 @@ public class ServletInicio extends HttpServlet {
         }
         DtListConsultaPropuesta propuestas = port2.getDtPropuestas();
         request.setAttribute("propuestas", propuestas);
-
+        
+        if(session.getAttribute("usuario_logueado")!=null){
         request.getRequestDispatcher("Vistas/Inicio.jsp").forward(request, response);
+    
+        }
+        else{
+            request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
+        }
+    
     }
+        
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

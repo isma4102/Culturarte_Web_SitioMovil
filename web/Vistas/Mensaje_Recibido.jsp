@@ -33,9 +33,6 @@
 
                     </div>
                </div>
-                    <div style="margin-top: 26%;">
-    <jsp:include page="/Vistas/footer.jsp" /> 
-                    </div>
 
     </body>
 </html>
