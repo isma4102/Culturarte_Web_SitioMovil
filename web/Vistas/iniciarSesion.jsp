@@ -11,15 +11,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link href="/Culturarte_Web_SitioMovil/css/bootstrap.min.css" rel="stylesheet">
+         <link href="/Culturarte_Web_SitioMovil/css/RegistrarColaboracion.css" rel="stylesheet">
        
         <title>CulturarteWeb</title>
 
     </head>
     <body>
-
-        <div class="global-container">
-            <div class="card login-form">
-                <div class="card-body">
+             <jsp:include page="/Vistas/Barra_menu.jsp" />
+        <div class="card-body formulario" style="width: 95%">
                     <h3 class="card-title text-center">Iniciar sesion en Culturarte</h3>
                     <div class="card-text">
                         <div id="Error_login" style="display: none;" class="alert alert-danger" role="alert">
@@ -42,8 +41,7 @@
                         </form>
                     </div>
                 </div>
-            </div>
-        </div>
+       
 
         <script type="text/javascript">
             <% if (request.getSession().getAttribute("estado_sesion") == EstadoSesion.LOGIN_INCORRECTO
