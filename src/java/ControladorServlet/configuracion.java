@@ -32,9 +32,7 @@ public class configuracion {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, e.getMessage());
         }
-//        String ip = prop.getProperty("Ip");
-//        String puerto = prop.getProperty("Porth");
-        String rutaLarga = prop.getProperty(caso);
+        String rutaLarga = prop.getProperty("Ip") + ":" + prop.getProperty("Porth");
         return rutaLarga;
     }
 
