@@ -33,7 +33,7 @@
                 <div id="navbar" class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li class="nav-item py-md-2"><a href="#" class="nav-link">Registrar Colaboración</a></li>
-                    <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/Vistas/Pagar_Colaboracion.jsp" class="nav-link">Pagar Colaboración</a></li>
+                    <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/ServletPagoColaboracion" class="nav-link">Pagar Colaboración</a></li>
                     <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/CerrarSesion" class="nav-link">Cerrar Sesión</a></li>
                     </ul>
                    
