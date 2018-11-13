@@ -51,8 +51,8 @@ public class ServletImagenes extends HttpServlet {
         ServletContext context;
         context = request.getServletContext();
         String ruta = context.getResource("").getPath();
-        URL url = new URL("http://"+conf.obtenerServer("servidor", ruta)+"/servicioConsultaU");
-        URL url1 = new URL("http://"+conf.obtenerServer("servidor", ruta)+"/servicioConsultaP");
+        URL url = new URL("http://"+conf.obtenerServer("servidor", ruta)+conf.leerProp("sConsultaUsuario", ruta));
+        URL url1 = new URL("http://"+conf.obtenerServer("servidor", ruta)+conf.leerProp("sConsultaPropuesta", ruta));
         PublicadorConsultarUsuarioService webService = new PublicadorConsultarUsuarioService(url);
         this.port = webService.getPublicadorConsultarUsuarioPort();
         

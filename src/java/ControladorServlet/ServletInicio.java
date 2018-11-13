@@ -64,15 +64,15 @@ public class ServletInicio extends HttpServlet {
         context = request.getServletContext();
         String ruta = context.getResource("").getPath();
         try {
-            URL url = new URL("http://" + conf.obtenerServer("servidor", ruta) + "/servicioInicio");
+            URL url = new URL("http://" + conf.obtenerServer("servidor", ruta) + conf.leerProp("sInicio", ruta));
             PublicadorInicioService webService = new PublicadorInicioService(url);
             this.port = webService.getPublicadorInicioPort();
 
-            URL url1 = new URL("http://" + conf.obtenerServer("servidor", ruta) + "/servicioConsultaU");
+            URL url1 = new URL("http://" + conf.obtenerServer("servidor", ruta) + conf.leerProp("sConsultaUsuario", ruta));
             PublicadorConsultarUsuarioService webService1 = new PublicadorConsultarUsuarioService(url1);
             this.port1 = webService1.getPublicadorConsultarUsuarioPort();
 
-            URL url2 = new URL("http://" + conf.obtenerServer("servidor", ruta) + "/servicioConsultaP");
+            URL url2 = new URL("http://" + conf.obtenerServer("servidor", ruta) + conf.leerProp("sConsultaPropuesta", ruta));
             PublicadorConsultarPropuestaService webService2 = new PublicadorConsultarPropuestaService(url2);
             this.port2 = webService2.getPublicadorConsultarPropuestaPort();
         } catch (MalformedURLException ex) {
