@@ -101,8 +101,8 @@ public class Login extends HttpServlet {
         ServletContext context;
         context = request.getServletContext();
         String ruta = context.getResource("").getPath();
-        URL url = new URL("http://" + conf.obtenerServer("servidor", ruta) + conf.leerProp("servicioConsultaU", ruta));
-        PublicadorConsultarUsuarioService webService = new PublicadorConsultarUsuarioService(url);
+        URL url1 = new URL("http://" + conf.obtenerServer("servidor", ruta) + conf.leerProp("sConsultaUsuario", ruta));
+        PublicadorConsultarUsuarioService webService = new PublicadorConsultarUsuarioService(url1);
         this.port = webService.getPublicadorConsultarUsuarioPort();
 
         String login = request.getParameter("login");
