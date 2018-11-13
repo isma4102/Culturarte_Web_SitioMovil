@@ -122,7 +122,7 @@ public class Login extends HttpServlet {
                 objSesion.setAttribute("estado_sesion", nuevoEstado);
                 request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
             }
-            if (usrCorreo != null) {
+            if (usrCorreo != null && !usrCorreo.isEsproponente()) {
                 String hash = a.sha1(password);
                 if (usrCorreo.getPassword().compareTo(hash) != 0) {
                     request.setAttribute("errorContrasenia", "Contraseña Incorrecta.");
@@ -130,6 +130,12 @@ public class Login extends HttpServlet {
                     objSesion.setAttribute("estado_sesion", nuevoEstado);
                     request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
                 } else {
+                    if(usrCorreo.isEsproponente()==true){
+                nuevoEstado = EstadoSesion.LOGIN_INCORRECTO;
+                objSesion.setAttribute("estado_sesion", nuevoEstado);
+                request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
+                        }
+                        
                     nuevoEstado = EstadoSesion.LOGIN_CORRECTO;
                     request.getSession().setAttribute("usuario_logueado", usrCorreo);// setea el usuario logueado
                     if (recordarme) {
@@ -138,6 +144,7 @@ public class Login extends HttpServlet {
                         cookieSesion.setPath("/");
                         response.addCookie(cookieSesion);
                     }
+                
                 }
 
             }
@@ -146,7 +153,7 @@ public class Login extends HttpServlet {
             dispatcher.forward(request, response);
         }
 
-        if (usrNick != null) {
+        if (usrNick != null ) {
             String hash = a.sha1(password);
             if (usrNick.getPassword().compareTo(hash) != 0) {
                 request.setAttribute("errorContrasenia", "Contraseña Incorrecta.");
@@ -154,6 +161,14 @@ public class Login extends HttpServlet {
                 objSesion.setAttribute("estado_sesion", nuevoEstado);
                 request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
             } else {
+                 if(usrNick.isEsproponente()==true){
+                     
+                nuevoEstado = EstadoSesion.LOGIN_INCORRECTO;
+                objSesion.setAttribute("estado_sesion", nuevoEstado);
+                request.getRequestDispatcher("Vistas/iniciarSesion.jsp").forward(request, response);
+                     
+                   }  
+                     
                 nuevoEstado = EstadoSesion.LOGIN_CORRECTO;
                 request.getSession().setAttribute("usuario_logueado", usrNick);// setea el usuario logueado
                 objSesion.setAttribute("estado_sesion", nuevoEstado);
@@ -166,6 +181,7 @@ public class Login extends HttpServlet {
                 RequestDispatcher dispatcher = request.getRequestDispatcher("/index.html");
                 dispatcher.forward(request, response);
             }
+          
         }
     }
 
