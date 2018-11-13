@@ -34,7 +34,11 @@
                     <ul class="nav navbar-nav">
                         <li class="nav-item py-md-2"><a href="#" class="nav-link">Registrar Colaboración</a></li>
                     <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/ServletPagoColaboracion" class="nav-link">Pagar Colaboración</a></li>
+                    
+                    <% if (request.getSession().getAttribute("usuario_logueado") != null) { %>
                     <li class="nav-item py-md-2"><a href="/Culturarte_Web_SitioMovil/CerrarSesion" class="nav-link">Cerrar Sesión</a></li>
+                    <% }%>
+                    
                     </ul>
                    
                 </div><!--/.nav-collapse -->
