@@ -13,7 +13,7 @@
         <link href="/Culturarte_Web_SitioMovil/css/bootstrap.min.css" rel="stylesheet">
          <link href="/Culturarte_Web_SitioMovil/css/RegistrarColaboracion.css" rel="stylesheet">
        
-        <title>CulturarteWeb</title>
+        <title>Culturarte</title>
 
     </head>
     <body>
