@@ -40,7 +40,7 @@
         <div style="width: 50%" class="container">
             <div class="row">
                 <div style="width: 100%;height: 70%">
-                    <img style="width: 100%;height: 100%;" class="img img-thumbnail img-responsive" src="/CulturarteWeb/ServletImagenes?TituloP=<%=dtInf.getTitulo()%>"/><br>
+                    <img style="width: 100%;height: 100%;" class="img img-thumbnail img-responsive" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=dtInf.getTitulo()%>"/><br>
                 </div>
                 <div id="padre"><a style="vertical-align: central"><%=dtInf.getTitulo()%></a></div>
                 <a href="#" class="btn btn-block btn-xs btn-prim+ary">Colaborar</a>
