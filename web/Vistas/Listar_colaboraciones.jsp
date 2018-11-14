@@ -44,9 +44,10 @@
                         <img style="filter: brightness(35%); width:200px; height:141px"  class="img-responsive" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=prop.getTitulo()%>">           
                         <div class="centrado">
                             <% out.print("<tr>");
+                            String estado = prop.getEstado().toString().replace("_", " ");
                                 out.print("<form class=\"form-signin\" action=\"ServletConsultarPropuesta\" method=\"POST\"> ");
                                 out.print("<input style=\"border:none\" type=\"hidden\" class=\"form-control-plaintext\" name=\"TituloP\" value=\"" + prop.getTitulo() + "\" readonly=\"readonly\"/>");
-                                out.print("<button name=\"seleccionar\" id=\"titulo\" type=\"input\" ><b style =\"color: white\">" + prop.getTitulo() + "<br> "+ prop.getEstado() +  "</b></button>");
+                                out.print("<button name=\"seleccionar\" id=\"titulo\" type=\"input\" ><b style =\"color: white\">" + prop.getTitulo() + "<br> "+ estado +  "</b></button>");
                                 // out.print("<td><button style=\"background:url('/CulturarteWeb/Imagenes/ver.png');background-position:center center;background-repeat:no-repeat;width:70px; height:25px\" type=\"input\" name=\"Ver\" class=\"btn btn-primary\"></button></td>");
                                 out.print("</form>");
                                 out.print("</tr>");

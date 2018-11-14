@@ -18,7 +18,7 @@
     <body>
                 <jsp:include page="/Vistas/Barra_menu.jsp" />
 
-               <div class="modal-content formulario" style="margin-top: 8%;width: 32%;margin-left: 34%;">
+               <div class="modal-content formulario" style="margin-top: 8%;width: 95%;">
 
                     <div class="modal-header">
                         <h5 align="center" class="modal-title" id="exampleModalLabel">Mensaje</h5>
@@ -29,7 +29,8 @@
                     </div>
                     <div class="modal-footer">
                         <a href="javascript:window.history.back();" class="btn btn-primary"> &laquo; Volver</a>
-                       <a style="color:#FFFFFF" class="btn btn-primary" href="/Culturarte_Web_SitioMovil/ServletSesion">Iniciar Sesión</a> </button>
+                       
+                        <a style="color:#FFFFFF" class="btn btn-primary" href="/Culturarte_Web_SitioMovil/ServletSesion">Volver al inicio</a> </button>
 
                     </div>
                </div>
