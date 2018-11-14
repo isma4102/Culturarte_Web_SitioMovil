@@ -43,7 +43,11 @@
                     <img style="width: 100%;height: 100%;" class="img img-thumbnail img-responsive" src="/Culturarte_Web_SitioMovil/ServletImagenes?TituloP=<%=dtInf.getTitulo()%>"/><br>
                 </div>
                 <div id="padre"><a style="vertical-align: central"><%=dtInf.getTitulo()%></a></div>
-                <a href="#" class="btn btn-block btn-xs btn-prim+ary">Colaborar</a>
+                 <form class="form-signin" action="ServletRegistroColaboracion" method="POST"> 
+                    <input type="hidden" class="form-control-plaintext" name="Estado" value="<%= dtInf.getEstadoActual().toString() %>" readonly="readonly"/>
+                     <input type="hidden" class="form-control-plaintext" name="TituloP" value="<%= dtInf.getTitulo() %>" readonly="readonly"/>
+                    <button name="seleccionar" class="btn btn-block btn-xs btn-primary">Colaborar</button>
+                </form>
 
             </div>
         </div><br>
